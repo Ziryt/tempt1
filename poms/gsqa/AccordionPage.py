@@ -1,11 +1,9 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from base.elements.ElementWrapper import BaseElement, Button, Container, Frame, Text
-
+from base.elements.ElementWrapper import BaseElement, Button, Container, ElementList, Frame, Text
 
 
 class AccordionPage:
-    
+
     '''
     Simple Accordion
     '''
@@ -13,7 +11,7 @@ class AccordionPage:
     sa_text = Text(locator='//*[@aria-labelledby="tab_item-0"]/div')
     sa_iframe = Frame(locator='//*[contains(@data-src,"coll")]')
     sa_iframe_s1_text = Text(locator='ui-id-2', by=By.ID)
-    
+
     '''
     Re-size Accordion
     '''
@@ -29,6 +27,5 @@ class AccordionPage:
     ti_button = Button(locator='Toggle Icons', by=By.ID)
     ti_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
     ti_iframe = Frame(locator='//*[contains(@data-src,"custom")]')
-    # ti_icons_list = BaseElement(locator='ui-accordion-header-icon', by=By.CLASS_NAME).elements
+    ti_icons_list = ElementList(locator='ui-accordion-header-icon', by=By.CLASS_NAME)
     ti_icons_button = Button(locator='toggle', by=By.ID)
-

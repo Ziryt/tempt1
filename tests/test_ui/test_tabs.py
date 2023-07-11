@@ -20,12 +20,12 @@ def test_resizable_accordion(accordion_page):
         assert expected_size == resized_size
 
 
-# def test_toggle_icons_accordion(accordion_page):
-#     p3 = 'Toggle button present at the end of last accordion and verify icon against each accordion'
-#     accordion_page.ti_button.click()
-#     assert accordion_page.ti_text.text == p3
-#     with accordion_page.ti_iframe.switch_to_frame():
-#         assert all(x.is_displayed() for x in accordion_page.ti_icons_list)
-#         accordion_page.toggle_icons()
-#         assert not any(not x.is_displayed() for x in accordion_page.ti_icons_list)
-#
+def test_toggle_icons_accordion(accordion_page):
+    p3 = 'Toggle button present at the end of last accordion and verify icon against each accordion'
+    accordion_page.ti_button.click()
+    assert accordion_page.ti_text.text == p3
+    with accordion_page.ti_iframe.switch_to_frame():
+        assert accordion_page.ti_icons_list.are_displayed
+        accordion_page.ti_icons_button.click()
+        assert not accordion_page.ti_icons_list.are_displayed
+

@@ -4,29 +4,27 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains, Keys
-from selenium.common import NoSuchElementException
+from selenium.common import NoSuchElementException, TimeoutException
 from base.browser.Wrapper import Browser
 
 
 class BaseElement:
     def __init__(self,  locator, by=By.XPATH):
-        # self.driver = Browser.get_driver()
         self.by = by
         self.locator = locator
 
     def wait_until_present(self, timeout=10):
-        WebDriverWait(Browser.get_driver(), timeout).until(
-            EC.presence_of_element_located((self.by, self.locator))
-        )
+        try:
+            WebDriverWait(Browser.get_driver(), timeout).until(
+                EC.presence_of_element_located((self.by, self.locator))
+            )
+        except TimeoutException as e:
+            print(e)
 
     @property
     def element(self):
         self.wait_until_present()
         return Browser.get_driver().find_element(self.by, self.locator)
-
-    @property
-    def elements(self):
-        return Browser.get_driver().find_elements(self.by, self.locator)
 
     def click(self):
         self.element.click()
@@ -121,3 +119,17 @@ class Container(BaseElement):
         ActionChains(Browser.get_driver())\
             .drag_and_drop_by_offset(self.element, x, y)\
             .perform()
+            
+            
+class ElementList:
+    def __init__(self, locator, by=By.XPATH):
+        self.by = by
+        self.locator = locator
+
+    @property
+    def elements(self):
+        return Browser.get_driver().find_elements(self.by, self.locator)
+
+    @property
+    def are_displayed(self):
+        return all(element.is_displayed() for element in self.elements)

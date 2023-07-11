@@ -25,7 +25,6 @@ class Browser:
 
     @staticmethod
     def quit():
-        yield
         Browser.get_driver().quit()
     
     

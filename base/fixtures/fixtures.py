@@ -15,13 +15,14 @@ def driver():
 
 
 @pytest.fixture
-def accordion_page(driver) -> AccordionPage:
+def accordion_page(driver):
     driver.get('https://www.globalsqa.com/demo-site/accordion-and-tabs/')
     return AccordionPage()
 
 
 @pytest.fixture
 def slider_page(driver):
-    return SliderPage(driver)
+    driver.get('https://www.globalsqa.com/demo-site/sliders/')
+    return SliderPage()
 
 
