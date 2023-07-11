@@ -27,3 +27,5 @@ class Browser:
     def quit():
         yield
         Browser.get_driver().quit()
+    
+    
