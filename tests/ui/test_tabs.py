@@ -27,5 +27,5 @@ def test_toggle_icons_accordion(accordion_page):
     with accordion_page.ti_iframe.switch_to_frame():
         assert accordion_page.ti_icons_list.are_displayed
         accordion_page.ti_icons_button.click()
-        assert not accordion_page.ti_icons_list.are_displayed
+        assert not accordion_page.ti_icons_list.elements
 

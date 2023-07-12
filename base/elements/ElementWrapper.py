@@ -40,6 +40,7 @@ class BaseElement:
 
     @property
     def text(self):
+        self.wait_until_present()
         return self.element.text
 
 
