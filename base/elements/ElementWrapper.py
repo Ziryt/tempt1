@@ -35,13 +35,17 @@ class BaseElement:
                 EC.visibility_of_element_located((self.by, self.locator))
             )
             return element.is_displayed()
-        except:
+        except TimeoutException:
             return False
 
     @property
     def text(self):
         self.wait_until_present()
         return self.element.text
+
+    def attribute(self, name):
+        self.wait_until_present()
+        return self.element.get_attribute(name)
 
 
 class Text(BaseElement):
@@ -116,7 +120,7 @@ class Container(BaseElement):
     def size(self):
         return self.element.size
     
-    def resize(self, x, y):
+    def dragndrop(self, x, y):
         ActionChains(Browser.get_driver())\
             .drag_and_drop_by_offset(self.element, x, y)\
             .perform()

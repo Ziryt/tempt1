@@ -1,6 +1,6 @@
 import pytest
 from base.browser.Wrapper import Browser
-from poms.gsqa import SliderPage
+from poms.gsqa.SliderPage import SliderPage
 from poms.gsqa.AccordionPage import AccordionPage
 
 

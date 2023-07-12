@@ -15,7 +15,7 @@ def test_resizable_accordion(accordion_page):
     with accordion_page.rsa_iframe.switch_to_frame(): 
         subject = accordion_page.rsa_iframe_container 
         expected_size = [subject.size['width'] + 200, subject.size['height'] + 200]
-        accordion_page.rsa_iframe_resizer.resize(200, 200)
+        accordion_page.rsa_iframe_resizer.dragndrop(200, 200)
         resized_size = [subject.size['width'], subject.size['height']]
         assert expected_size == resized_size
 
