@@ -1,4 +1,5 @@
 import contextlib
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.select import Select
@@ -13,6 +14,24 @@ class BaseElement:
         self.by = by
         self.locator = locator
 
+    @property
+    def element(self):
+        self.wait_until_present()
+        return Browser.get_driver().find_element(self.by, self.locator)
+
+    @property
+    def text(self):
+        self.wait_until_present()
+        return self.element.text
+
+    @property
+    def size(self):
+        return self.element.size
+
+    @property
+    def location(self):
+        return self.element.location
+
     def wait_until_present(self, timeout=10):
         try:
             WebDriverWait(Browser.get_driver(), timeout).until(
@@ -20,14 +39,6 @@ class BaseElement:
             )
         except TimeoutException as e:
             print(e)
-
-    @property
-    def element(self):
-        self.wait_until_present()
-        return Browser.get_driver().find_element(self.by, self.locator)
-
-    def click(self):
-        self.element.click()
 
     def is_displayed(self):
         try:
@@ -38,14 +49,15 @@ class BaseElement:
         except TimeoutException:
             return False
 
-    @property
-    def text(self):
-        self.wait_until_present()
-        return self.element.text
-
     def attribute(self, name):
         self.wait_until_present()
         return self.element.get_attribute(name)
+
+    def click(self):
+        self.element.click()
+
+    def execute_js(self, script):
+        Browser.get_driver().execute_script(script, self.element)
 
 
 class Text(BaseElement):
@@ -116,16 +128,13 @@ class Frame(BaseElement):
 
 
 class Container(BaseElement):
-    @property
-    def size(self):
-        return self.element.size
-    
     def dragndrop(self, x, y):
         ActionChains(Browser.get_driver())\
-            .drag_and_drop_by_offset(self.element, x, y)\
+            .drag_and_drop_by_offset(self.element, x, y) \
+            .release() \
             .perform()
-            
-            
+
+
 class ElementList:
     def __init__(self, locator, by=By.XPATH):
         self.by = by

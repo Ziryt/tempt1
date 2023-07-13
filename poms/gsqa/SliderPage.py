@@ -1,4 +1,8 @@
+import re
+
 from selenium.webdriver.common.by import By
+
+from base.browser.Wrapper import Browser
 from base.elements.ElementWrapper import Button, Text, Frame, Container
 
 
@@ -21,6 +25,9 @@ class SliderPage:
     r_button = Button(locator='Range', by=By.ID)
     r_text = Text(locator='//*[@aria-labelledby="tab_item-1"]/div')
     r_iframe = Frame(locator='//*[contains(@data-src,"range")]')
+    r_iframe_slider = Container(locator='//*[@id="slider-range"]')
+    r_iframe_left = Container(locator='//*[@tabindex="0"][1]')
+    r_iframe_right = Container(locator='//*[@tabindex="0"][2]')
 
     """
     Simple Accordion
@@ -30,7 +37,36 @@ class SliderPage:
     s_iframe = Frame(locator='//*[contains(@data-src,"step")]')
 
     def set_picker_color(self, red, green, blue):
-        coefficient = 302 / 255
-        self.cp_iframe_red.dragndrop(red * coefficient, 0)
-        self.cp_iframe_green.dragndrop(green * coefficient, 0)
-        self.cp_iframe_blue.dragndrop(blue * coefficient, 0)
+        coeff = 302 / 255
+        self.cp_iframe_red.dragndrop(red * coeff, 0)
+        self.cp_iframe_green.dragndrop(green * coeff, 0)
+        self.cp_iframe_blue.dragndrop(blue * coeff, 0)
+
+    def set_range_relative(self, left, right):
+        coeff = 684 / 500
+        self.r_iframe_left.dragndrop(left * coeff, 0)
+        self.r_iframe_right.dragndrop(right * coeff, 0)
+
+    def set_range_absolute(self, left, right):
+        """
+        Sets handle position in % value of bar length,
+        For example it can set left handle at 43% of bar length, and 79% for right
+
+        :param left: % for left handle
+        :param right: % for left handle
+        """
+        coeff = 6.84
+        self.set_range_relative(-76, 201)
+        self.r_iframe_left.dragndrop(left * coeff, 0)
+        self.r_iframe_right.dragndrop((-100 + right) * coeff, 0)
+        self._adjust_range(self.r_iframe_left, left)
+        self._adjust_range(self.r_iframe_right, right)
+
+    @staticmethod
+    def _adjust_range(element, goal):
+        while (current := float(re.search('[0-9]+.*[0-9]+', element.attribute('style')).group(0)))\
+                != (f_goal := float(goal)):
+            if current > f_goal:
+                element.dragndrop(-2, 0)
+            if current < f_goal:
+                element.dragndrop(2, 0)
