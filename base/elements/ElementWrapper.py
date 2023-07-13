@@ -1,5 +1,6 @@
 import contextlib
 
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.select import Select
@@ -15,7 +16,7 @@ class BaseElement:
         self.locator = locator
 
     @property
-    def element(self):
+    def element(self) -> WebElement:
         self.wait_until_present()
         return Browser.get_driver().find_element(self.by, self.locator)
 
@@ -56,12 +57,26 @@ class BaseElement:
     def click(self):
         self.element.click()
 
-    def execute_js(self, script):
-        Browser.get_driver().execute_script(script, self.element)
+    def click_by_offset(self, x, y):
+        ActionChains(Browser.get_driver()) \
+            .move_to_element_with_offset(self.element, x, y) \
+            .click() \
+            .perform()
+
+    @staticmethod
+    def execute_js(script):
+        return Browser.get_driver().execute_script(script)
 
 
 class Text(BaseElement):
     pass
+
+
+class Input(BaseElement):
+    @property
+    def value(self):
+        self.wait_until_present()
+        return self.element.get_attribute('')
 
 
 class TextInput(BaseElement):

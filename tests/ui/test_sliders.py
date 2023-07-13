@@ -25,4 +25,13 @@ def test_range_absolute(slider_page):
 
 
 def test_steps(slider_page):
-    pass
+    slider_page.s_button.click()
+    script = "var inputElement = document.querySelector('input[type=\"text\"]');" \
+        "return inputElement.value.trim();"
+    with slider_page.s_iframe.switch_to_frame():
+        assert slider_page.s_iframe_text.text == 'Donation amount ($50 increments):'
+        slider_page.add_step(-180)
+        assert slider_page.s_iframe_value.execute_js(script) == '$100'
+        slider_page.add_step(-150)
+        assert slider_page.s_iframe_value.execute_js(script) == '$150'
+

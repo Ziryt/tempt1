@@ -1,8 +1,6 @@
 import re
 
 from selenium.webdriver.common.by import By
-
-from base.browser.Wrapper import Browser
 from base.elements.ElementWrapper import Button, Text, Frame, Container
 
 
@@ -25,7 +23,7 @@ class SliderPage:
     r_button = Button(locator='Range', by=By.ID)
     r_text = Text(locator='//*[@aria-labelledby="tab_item-1"]/div')
     r_iframe = Frame(locator='//*[contains(@data-src,"range")]')
-    r_iframe_slider = Container(locator='//*[@id="slider-range"]')
+    r_iframe_bar = Container(locator='//*[@id="slider-range"]')
     r_iframe_left = Container(locator='//*[@tabindex="0"][1]')
     r_iframe_right = Container(locator='//*[@tabindex="0"][2]')
 
@@ -35,6 +33,9 @@ class SliderPage:
     s_button = Button(locator='Steps', by=By.ID)
     s_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
     s_iframe = Frame(locator='//*[contains(@data-src,"step")]')
+    s_iframe_text = Text(locator='//*[@for="amount"]')
+    s_iframe_value = Text(locator='//*[@class="vsc-initialized"]/p')
+    s_iframe_bar = Container(locator='//*[@id="slider"]')
 
     def set_picker_color(self, red, green, blue):
         coeff = 302 / 255
@@ -61,6 +62,9 @@ class SliderPage:
         self.r_iframe_right.dragndrop((-100 + right) * coeff, 0)
         self._adjust_range(self.r_iframe_left, left)
         self._adjust_range(self.r_iframe_right, right)
+
+    def add_step(self, x):
+        self.s_iframe_bar.click_by_offset(x, 0)
 
     @staticmethod
     def _adjust_range(element, goal):

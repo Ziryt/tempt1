@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from base.elements.ElementWrapper import Button, Text, Frame
 
 
-class TooltipPage:
+class ToolbarPage:
 
     """
     Simple Accordion

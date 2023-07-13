@@ -26,5 +26,11 @@ class Browser:
     @staticmethod
     def quit():
         Browser.get_driver().quit()
+
+    @staticmethod
+    def refresh():
+        Browser.get_driver().refresh()
+
+
     
     

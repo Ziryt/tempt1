@@ -1,8 +1,8 @@
 from selenium.webdriver.common.by import By
-from base.elements.ElementWrapper import BaseElement, Button, Container, ElementList, Frame, Text
+from base.elements.ElementWrapper import Button, Container, ElementList, Frame, Text
 
 
-class AccordionPage:
+class TabsPage:
 
     """
     Simple Accordion
