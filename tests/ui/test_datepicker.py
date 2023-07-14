@@ -11,7 +11,7 @@ def test_simple_date_picker(slider_page):
     assert driver.find_element(By.XPATH, '//*[contains(@style,"55, 120, 97")]')
 
 
-def test_dropdown_date_picker(slider_page):
+def test_date_picker_dropdown(slider_page):
     pass
 
 

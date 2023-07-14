@@ -1,27 +1,15 @@
 from selenium.webdriver.common.by import By
 
-from base.elements.ElementWrapper import Button, Text, Frame
+from base.elements.ElementWrapper import Button, Text, Dropdown
 
 
 class DropdownPage:
 
     """
-    Simple Accordion
+    Select country
     """
-    ib_button = Button(locator='Color Picker', by=By.ID)
-    ib_text = Text(locator='//*[@aria-labelledby="tab_item-0"]/div')
-    ib_iframe = Frame(locator='//*[contains(@data-src,"image")]')
+    text = Text(locator='//*[@class="information closable"]//strong')
+    close_button = Button(locator='close_img', by=By.CLASS_NAME)
+    dropdown = Dropdown(locator='//select')
 
-    """
-    Simple Accordion
-    """
-    vb_button = Button(locator='Range', by=By.ID)
-    vb_text = Text(locator='//*[@aria-labelledby="tab_item-1"]/div')
-    vb_iframe = Frame(locator='//*[contains(@data-src,"video")]')
 
-    """
-    Simple Accordion
-    """
-    fb_button = Button(locator='Steps', by=By.ID)
-    fb_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
-    fb_iframe = Frame(locator='//*[contains(@data-src,"form")]')

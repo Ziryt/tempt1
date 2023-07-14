@@ -37,18 +37,18 @@ class SliderPage:
     s_iframe_value = Text(locator='//*[@class="vsc-initialized"]/p')
     s_iframe_bar = Container(locator='//*[@id="slider"]')
 
-    def set_picker_color(self, red, green, blue):
+    def set_picker_color(self, red, green, blue) -> None:
         coeff = 302 / 255
         self.cp_iframe_red.dragndrop(red * coeff, 0)
         self.cp_iframe_green.dragndrop(green * coeff, 0)
         self.cp_iframe_blue.dragndrop(blue * coeff, 0)
 
-    def set_range_relative(self, left, right):
+    def set_range_relative(self, left, right) -> None:
         coeff = 684 / 500
         self.r_iframe_left.dragndrop(left * coeff, 0)
         self.r_iframe_right.dragndrop(right * coeff, 0)
 
-    def set_range_absolute(self, left, right):
+    def set_range_absolute(self, left, right) -> None:
         """
         Sets handle position in % value of bar length,
         For example it can set left handle at 43% of bar length, and 79% for right
@@ -63,11 +63,11 @@ class SliderPage:
         self._adjust_range(self.r_iframe_left, left)
         self._adjust_range(self.r_iframe_right, right)
 
-    def add_step(self, x):
+    def add_step(self, x) -> None:
         self.s_iframe_bar.click_by_offset(x, 0)
 
     @staticmethod
-    def _adjust_range(element, goal):
+    def _adjust_range(element, goal) -> None:
         while (current := float(re.search('[0-9]+.*[0-9]+', element.attribute('style')).group(0)))\
                 != (f_goal := float(goal)):
             if current > f_goal:

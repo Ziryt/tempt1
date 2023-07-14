@@ -1,12 +1,18 @@
 
 
-def test_dropdown(slider_page):
-    assert driver.find_element(By.XPATH, '//*[contains(@style,"255, 140, 60")]')
-    red = driver.find_element(By.XPATH, '//*[@id="red"]/span')
-    action.drag_and_drop_by_offset(red, -200, 0).perform()
-    green = driver.find_element(By.XPATH, '//*[@id="green"]/span')
-    action.drag_and_drop_by_offset(green, -20, 0).perform()
-    blue = driver.find_element(By.XPATH, '//*[@id="blue"]/span')
-    action.drag_and_drop_by_offset(blue, 37, 0).perform()
-    assert driver.find_element(By.XPATH, '//*[contains(@style,"55, 120, 97")]')
+def test_tip(dropdown_page):
+    assert dropdown_page.text.text == 'Select country from below drop down list:'
+    dropdown_page.close_button.click()
+    assert dropdown_page.text.invisibility
+
+
+def test_dropdown(dropdown_page):
+    assert dropdown_page.dropdown.selected_value == 'Afghanistan'
+    dropdown_page.dropdown.select_option_by_value('BRA')
+    assert dropdown_page.dropdown.selected_value == 'Brazil'
+    dropdown_page.dropdown.select_option_by_index(34)
+    assert dropdown_page.dropdown.selected_value != 'Brazil'
+    dropdown_page.dropdown.select_option_by_visible_text('Germany')
+    assert dropdown_page.dropdown.selected_value == 'Germany'
+
 
