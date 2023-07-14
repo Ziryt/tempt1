@@ -1,19 +1,14 @@
 
 
-def test_multiple_selection(slider_page):
-    assert driver.find_element(By.XPATH, '//*[contains(@style,"255, 140, 60")]')
-    red = driver.find_element(By.XPATH, '//*[@id="red"]/span')
-    action.drag_and_drop_by_offset(red, -200, 0).perform()
-    green = driver.find_element(By.XPATH, '//*[@id="green"]/span')
-    action.drag_and_drop_by_offset(green, -20, 0).perform()
-    blue = driver.find_element(By.XPATH, '//*[@id="blue"]/span')
-    action.drag_and_drop_by_offset(blue, 37, 0).perform()
-    assert driver.find_element(By.XPATH, '//*[contains(@style,"55, 120, 97")]')
+def test_multiple_selection(select_page):
+    with select_page.ms_iframe.switch_to_frame():
+        select_page.select_from_to(2, 3)
+        select_page.item_list.deselect_all()
 
 
-def test_confirmation_selection(slider_page):
+def test_confirmation_selection(select_page):
     pass
 
 
-def test_serialize(slider_page):
+def test_serialize(select_page):
     pass

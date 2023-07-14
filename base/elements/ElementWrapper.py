@@ -45,8 +45,8 @@ class BaseElement:
             WebDriverWait(Browser.get_driver(), timeout).until(
                 EC.presence_of_element_located((self.by, self.locator))
             )
-        except TimeoutException as e:
-            raise Exception(f'Times went out during waiting of element:"{self.locator}" to be present')
+        except TimeoutException:
+            raise Exception(f'Time went out during waiting of element:"{self.locator}" to be present')
 
     def is_displayed(self) -> bool:
         try:
@@ -65,10 +65,24 @@ class BaseElement:
         self.element.click()
 
     def click_by_offset(self, x, y) -> None:
-        ActionChains(Browser.get_driver()) \
-            .move_to_element_with_offset(self.element, x, y) \
-            .click() \
-            .perform()
+        (ActionChains(Browser.get_driver())
+            .move_to_element_with_offset(self.element, x, y)
+            .click()
+            .perform())
+
+    def double_click(self):
+        (ActionChains(Browser.get_driver())
+            .move_to_element(self.element)
+            .double_click()
+            .perform())
+
+    def click_with_key(self, key):
+        (ActionChains(Browser.get_driver())
+            .move_to_element(self.element)
+            .key_down(key)
+            .click()
+            .key_up(key)
+            .perform())
 
     @staticmethod
     def execute_js(script):
@@ -89,11 +103,11 @@ class Input(BaseElement):
 class TextInput(Input):
     def clear(self) -> WebElement:
         (ActionChains(Browser.get_driver())
-         .key_down(Keys.CONTROL)
+            .key_down(Keys.CONTROL)
             .send_keys('a')
-         .key_up(Keys.CONTROL)
-         .send_keys(Keys.BACK_SPACE)
-         .perform())
+            .key_up(Keys.CONTROL)
+            .send_keys(Keys.BACK_SPACE)
+            .perform())
         return self.element
     
     def enter_text(self, text) -> WebElement:
@@ -135,13 +149,13 @@ class Dropdown(BaseElement):
         try:
             self.element.select_by_value(value)
         except NoSuchElementException:
-            raise Exception(f'Option "{value}" was not found in dropdown')
+            raise Exception(f'Value "{value}" was not found in dropdown')
 
     def select_option_by_index(self, index) -> None:
         try:
             self.element.select_by_index(index)
         except NoSuchElementException:
-            raise Exception(f'Option at index "{index}" was not found in dropdown')
+            raise Exception(f'Index "{index}" was not found in dropdown')
 
     def select_options_by_visible_text(self, texts) -> None:
         for text in texts:
@@ -165,11 +179,10 @@ class Frame(BaseElement):
 
 
 class Container(BaseElement):
-    def dragndrop(self, x, y) -> None:
-        ActionChains(Browser.get_driver())\
-            .drag_and_drop_by_offset(self.element, x, y) \
-            .release() \
-            .perform()
+    def drag_drop_by_offset(self, x, y) -> None:
+        (ActionChains(Browser.get_driver())
+            .drag_and_drop_by_offset(self.element, x, y)
+            .perform())
 
 
 class ElementList:
@@ -184,3 +197,8 @@ class ElementList:
     @property
     def are_displayed(self) -> bool:
         return all(element.is_displayed() for element in self.elements)
+
+    def selection(self, start, end) -> None:
+        (ActionChains(Browser.get_driver())
+            .drag_and_drop(start, end)
+            .perform())

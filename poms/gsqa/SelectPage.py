@@ -1,27 +1,35 @@
 from selenium.webdriver.common.by import By
 
-from base.elements.ElementWrapper import Button, Text, Frame
+from base.elements.ElementWrapper import Button, Text, Frame, Dropdown, ElementList
 
 
 class SelectPage:
 
     """
-    Simple Accordion
+    Multiple selection
     """
-    ib_button = Button(locator='Color Picker', by=By.ID)
-    ib_text = Text(locator='//*[@aria-labelledby="tab_item-0"]/div')
-    ib_iframe = Frame(locator='//*[contains(@data-src,"image")]')
+    ms_button = Button(locator='Multiple Selection', by=By.ID)
+    ms_text = Text(locator='//*[@aria-labelledby="tab_item-0"]/div')
+    ms_iframe = Frame(locator='//*[contains(@data-src,"default")]')
+    item_list = ElementList(locator='//*[contains(@class,"ui-selectee")]')
+
 
     """
-    Simple Accordion
+    Grid selection
     """
-    vb_button = Button(locator='Range', by=By.ID)
-    vb_text = Text(locator='//*[@aria-labelledby="tab_item-1"]/div')
-    vb_iframe = Frame(locator='//*[contains(@data-src,"video")]')
+    gs_button = Button(locator='Grid Selection', by=By.ID)
+    gs_text = Text(locator='//*[@aria-labelledby="tab_item-1"]/div')
+    gs_iframe = Frame(locator='//*[contains(@data-src,"grid")]')
 
     """
-    Simple Accordion
+    Serialize
     """
-    fb_button = Button(locator='Steps', by=By.ID)
-    fb_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
-    fb_iframe = Frame(locator='//*[contains(@data-src,"form")]')
+    s_button = Button(locator='Serialize', by=By.ID)
+    s_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
+    s_iframe = Frame(locator='//*[contains(@data-src,"serialize")]')
+
+    def select_from_to(self, _from, _to):
+        self.item_list.selection(self.item_list.elements[_from-1], self.item_list.elements[_to-1])
+
+    def deselect(self, *args):
+        pass

@@ -39,14 +39,14 @@ class SliderPage:
 
     def set_picker_color(self, red, green, blue) -> None:
         coeff = 302 / 255
-        self.cp_iframe_red.dragndrop(red * coeff, 0)
-        self.cp_iframe_green.dragndrop(green * coeff, 0)
-        self.cp_iframe_blue.dragndrop(blue * coeff, 0)
+        self.cp_iframe_red.drag_drop_by_offset(red * coeff, 0)
+        self.cp_iframe_green.drag_drop_by_offset(green * coeff, 0)
+        self.cp_iframe_blue.drag_drop_by_offset(blue * coeff, 0)
 
     def set_range_relative(self, left, right) -> None:
         coeff = 684 / 500
-        self.r_iframe_left.dragndrop(left * coeff, 0)
-        self.r_iframe_right.dragndrop(right * coeff, 0)
+        self.r_iframe_left.drag_drop_by_offset(left * coeff, 0)
+        self.r_iframe_right.drag_drop_by_offset(right * coeff, 0)
 
     def set_range_absolute(self, left, right) -> None:
         """
@@ -58,8 +58,8 @@ class SliderPage:
         """
         coeff = 6.84
         self.set_range_relative(-76, 201)
-        self.r_iframe_left.dragndrop(left * coeff, 0)
-        self.r_iframe_right.dragndrop((-100 + right) * coeff, 0)
+        self.r_iframe_left.drag_drop_by_offset(left * coeff, 0)
+        self.r_iframe_right.drag_drop_by_offset((-100 + right) * coeff, 0)
         self._adjust_range(self.r_iframe_left, left)
         self._adjust_range(self.r_iframe_right, right)
 
@@ -71,6 +71,6 @@ class SliderPage:
         while (current := float(re.search('[0-9]+.*[0-9]+', element.attribute('style')).group(0)))\
                 != (f_goal := float(goal)):
             if current > f_goal:
-                element.dragndrop(-2, 0)
+                element.drag_drop_by_offset(-2, 0)
             if current < f_goal:
-                element.dragndrop(2, 0)
+                element.drag_drop_by_offset(2, 0)
