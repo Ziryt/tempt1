@@ -10,7 +10,7 @@ def test_multiple_selection(select_page):
         assert len(select_page.selected_list.elements) == 2
 
 
-def test_confirmation_selection(select_page):
+def test_grid_selection(select_page):
     pass
 
 
