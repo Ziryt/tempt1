@@ -11,17 +11,18 @@ from base.browser.Wrapper import Browser
 
 
 class BaseElement:
-    def __init__(self,  locator, by=By.XPATH):
+    def __init__(self,  locator, by=By.XPATH, index=None):
         self.by = by
         self.locator = locator
+        self.index = index
 
     @property
     def element(self) -> WebElement:
         try:
-            self.wait_until_present()
-            return Browser.get_driver().find_element(self.by, self.locator)
+            self._find()
         except NoSuchElementException:
             raise Exception(f'Element at "{self.locator}" was not found')
+        return self._element
 
     @property
     def text(self) -> str:
@@ -39,6 +40,12 @@ class BaseElement:
     @property
     def invisibility(self):
         return EC.invisibility_of_element(self.element)
+
+    def _find(self):
+        if self.index:
+            self._element = Browser.get_driver().find_elements(self.by, self.locator)[self.index]
+        else:
+            self._element = Browser.get_driver().find_element(self.by, self.locator)
 
     def wait_until_present(self, timeout=10):
         try:
@@ -61,31 +68,18 @@ class BaseElement:
         self.wait_until_present()
         return self.element.get_attribute(name)
 
-    def click(self) -> None:
+    def click(self):
         self.element.click()
-
-    def click_by_offset(self, x, y) -> None:
-        (ActionChains(Browser.get_driver())
-            .move_to_element_with_offset(self.element, x, y)
-            .click()
-            .perform())
+        return self
 
     def double_click(self):
         (ActionChains(Browser.get_driver())
             .move_to_element(self.element)
             .double_click()
             .perform())
+        return self
 
-    def click_with_key(self, key):
-        (ActionChains(Browser.get_driver())
-            .move_to_element(self.element)
-            .key_down(key)
-            .click()
-            .key_up(key)
-            .perform())
-
-    @staticmethod
-    def execute_js(script):
+    def execute_js(self, script):
         return Browser.get_driver().execute_script(script)
 
 
@@ -184,21 +178,18 @@ class Container(BaseElement):
             .drag_and_drop_by_offset(self.element, x, y)
             .perform())
 
-
-class ElementList:
-    def __init__(self, locator, by=By.XPATH):
-        self.by = by
-        self.locator = locator
-
-    @property
-    def elements(self) -> list[WebElement]:
-        return Browser.get_driver().find_elements(self.by, self.locator)
-
-    @property
-    def are_displayed(self) -> bool:
-        return all(element.is_displayed() for element in self.elements)
-
-    def selection(self, start, end) -> None:
+    def click_by_offset(self, x, y) -> None:
         (ActionChains(Browser.get_driver())
-            .drag_and_drop(start, end)
+            .move_to_element_with_offset(self.element, x, y)
+            .click()
             .perform())
+        return self
+
+    def click_with_key(self, key):
+        (ActionChains(Browser.get_driver())
+            .move_to_element(self.element)
+            .key_down(key)
+            .click()
+            .key_up(key)
+            .perform())
+        return self

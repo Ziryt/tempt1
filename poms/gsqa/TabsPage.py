@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
-from base.elements.ElementWrapper import Button, Container, ElementList, Frame, Text
+from base.elements.ElementWrapper import Button, Container, Frame, Text
+from base.elements.ElementsWrapper import BaseElementList
 
 
 class TabsPage:
@@ -27,5 +28,5 @@ class TabsPage:
     ti_button = Button(locator='Toggle Icons', by=By.ID)
     ti_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
     ti_iframe = Frame(locator='//*[contains(@data-src,"custom")]')
-    ti_icons_list = ElementList(locator='//*[contains(@class,"ui-accordion-header-icon")]')
+    ti_icons_list = BaseElementList(locator='//*[contains(@class,"ui-accordion-header-icon")]')
     ti_icons_button = Button(locator='toggle', by=By.ID)
