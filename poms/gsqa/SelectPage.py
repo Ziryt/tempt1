@@ -27,6 +27,8 @@ class SelectPage:
     s_button = Button(locator='Serialize', by=By.ID)
     s_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
     s_iframe = Frame(locator='//*[contains(@data-src,"serialize")]')
+    select_text = Text(locator='//*[@id="feedback"]/span')
+    select_values = Text(locator='//*[@id="select-result"]')
 
     """
     Lists

@@ -22,4 +22,9 @@ def test_grid_selection(select_page):
 
 
 def test_serialize(select_page):
-    pass
+    values = [1, 4, 6]
+    select_page.s_button.click()
+    with select_page.s_iframe.switch_to_frame():
+        assert select_page.select_text.text == 'You\'ve selected:'
+        select_page.chane(*values)
+        assert values == [int(value) for value in select_page.select_values.text[1:].split(' #')]
