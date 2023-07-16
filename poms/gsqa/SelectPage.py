@@ -37,7 +37,7 @@ class SelectPage:
     def select_from_to(self, _from, _to) -> None:
         self.items_list.select_area(_from - 1, _to - 1)
 
-    def chane_non_adjacent(self, *args) -> None:
+    def chane(self, *args) -> None:
         if args:
             for num in args:
                 self.items_list.elements[num - 1].click_with_key(Keys.CONTROL)
