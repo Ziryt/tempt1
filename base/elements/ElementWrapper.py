@@ -26,7 +26,6 @@ class BaseElement:
 
     @property
     def text(self) -> str:
-        self.wait_until_present()
         return self.element.text
 
     @property
@@ -45,6 +44,7 @@ class BaseElement:
         if self.index:
             self._element = Browser.get_driver().find_elements(self.by, self.locator)[self.index]
         else:
+            self.wait_until_present()
             self._element = Browser.get_driver().find_element(self.by, self.locator)
 
     def wait_until_present(self, timeout=10):
@@ -64,7 +64,7 @@ class BaseElement:
         except TimeoutException:
             return False
 
-    def attribute(self, name) -> str:
+    def attribute(self, name: any) -> str:
         self.wait_until_present()
         return self.element.get_attribute(name)
 
@@ -104,7 +104,7 @@ class TextInput(Input):
             .perform())
         return self.element
     
-    def enter_text(self, text) -> WebElement:
+    def enter_text(self, text: any) -> WebElement:
         self.clear().send_keys(text)
         return self.element
 
@@ -133,33 +133,33 @@ class Dropdown(BaseElement):
     def deselect_all(self) -> None:
         self.element.deselect_all()
 
-    def select_option_by_visible_text(self, text) -> None:
+    def select_option_by_visible_text(self, text: any) -> None:
         try:
-            self.element.select_by_visible_text(text)
+            self.element.select_by_visible_text(str(text))
         except NoSuchElementException:
             raise Exception(f'Option "{text}" was not found in dropdown')
 
-    def select_option_by_value(self, value) -> None:
+    def select_option_by_value(self, value: any) -> None:
         try:
-            self.element.select_by_value(value)
+            self.element.select_by_value(str(value))
         except NoSuchElementException:
             raise Exception(f'Value "{value}" was not found in dropdown')
 
-    def select_option_by_index(self, index) -> None:
+    def select_option_by_index(self, index: any) -> None:
         try:
-            self.element.select_by_index(index)
+            self.element.select_by_index(str(index))
         except NoSuchElementException:
             raise Exception(f'Index "{index}" was not found in dropdown')
 
-    def select_options_by_visible_text(self, texts) -> None:
+    def select_options_by_visible_text(self, texts: list[str]) -> None:
         for text in texts:
             self.select_option_by_visible_text(text)
 
-    def select_options_by_value(self, values) -> None:
+    def select_options_by_value(self, values: list[str]) -> None:
         for value in values:
             self.select_option_by_value(value)
 
-    def select_options_by_index(self, indices) -> None:
+    def select_options_by_index(self, indices: list[str]) -> None:
         for index in indices:
             self.select_option_by_index(index)
 
@@ -173,19 +173,19 @@ class Frame(BaseElement):
 
 
 class Container(BaseElement):
-    def drag_drop_by_offset(self, x, y) -> None:
+    def drag_drop_by_offset(self, x: any, y: any) -> None:
         (ActionChains(Browser.get_driver())
             .drag_and_drop_by_offset(self.element, x, y)
             .perform())
 
-    def click_by_offset(self, x, y) -> None:
+    def click_by_offset(self, x: any, y: any) -> None:
         (ActionChains(Browser.get_driver())
             .move_to_element_with_offset(self.element, x, y)
             .click()
             .perform())
         return self
 
-    def click_with_key(self, key):
+    def click_with_key(self, key: any):
         (ActionChains(Browser.get_driver())
             .move_to_element(self.element)
             .key_down(key)

@@ -1,19 +1,13 @@
 
 
-def test_simple_date_picker(slider_page):
-    assert driver.find_element(By.XPATH, '//*[contains(@style,"255, 140, 60")]')
-    red = driver.find_element(By.XPATH, '//*[@id="red"]/span')
-    action.drag_and_drop_by_offset(red, -200, 0).perform()
-    green = driver.find_element(By.XPATH, '//*[@id="green"]/span')
-    action.drag_and_drop_by_offset(green, -20, 0).perform()
-    blue = driver.find_element(By.XPATH, '//*[@id="blue"]/span')
-    action.drag_and_drop_by_offset(blue, 37, 0).perform()
-    assert driver.find_element(By.XPATH, '//*[contains(@style,"55, 120, 97")]')
+def test_simple_date_picker(date_picker_page):
+    with date_picker_page.sdp_iframe.switch_to_frame():
+        assert date_picker_page.set_date('4/8/2023') == date_picker_page.date_set
+        assert date_picker_page.set_date('21/12/2021') == date_picker_page.date_set
 
 
-def test_date_picker_dropdown(slider_page):
-    pass
-
-
-def test_icon_trigger(slider_page):
-    pass
+def test_date_picker_dropdown(date_picker_page):
+    date_picker_page.ddp_button.click()
+    with date_picker_page.ddp_iframe.switch_to_frame():
+        assert date_picker_page.set_date_dropdown('13/1/2024') == date_picker_page.date_set
+        assert date_picker_page.set_date_dropdown('9/5/2022') == date_picker_page.date_set

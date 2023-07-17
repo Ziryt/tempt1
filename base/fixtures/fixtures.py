@@ -1,11 +1,8 @@
 import pytest
 from base.browser.Wrapper import Browser
-from poms.gsqa.AlertBoxPage import AlertBoxPage
 from poms.gsqa.AutocompletePage import AutocompletePage
 from poms.gsqa.DatePickerPage import DatePickerPage
 from poms.gsqa.DialogPage import DialogPage
-from poms.gsqa.DragNDropPage import DragNDropPage
-from poms.gsqa.DraggableBoxesPage import DraggableBoxesPage
 from poms.gsqa.DropdownPage import DropdownPage
 from poms.gsqa.FramesPage import FramesPage
 from poms.gsqa.ProgressBarPage import ProgressBarPage
