@@ -133,21 +133,21 @@ class Dropdown(BaseElement):
     def deselect_all(self) -> None:
         self.element.deselect_all()
 
-    def select_option_by_visible_text(self, text: any) -> None:
+    def select_option_by_visible_text(self, text: str) -> None:
         try:
-            self.element.select_by_visible_text(str(text))
+            self.element.select_by_visible_text(text)
         except NoSuchElementException:
             raise Exception(f'Option "{text}" was not found in dropdown')
 
-    def select_option_by_value(self, value: any) -> None:
+    def select_option_by_value(self, value: str) -> None:
         try:
-            self.element.select_by_value(str(value))
+            self.element.select_by_value(value)
         except NoSuchElementException:
             raise Exception(f'Value "{value}" was not found in dropdown')
 
-    def select_option_by_index(self, index: any) -> None:
+    def select_option_by_index(self, index: str) -> None:
         try:
-            self.element.select_by_index(str(index))
+            self.element.select_by_index(index)
         except NoSuchElementException:
             raise Exception(f'Index "{index}" was not found in dropdown')
 
