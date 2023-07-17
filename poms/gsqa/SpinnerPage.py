@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from base.elements.ElementWrapper import Button, Text, Frame
+from base.elements.ElementWrapper import Button, Text, Frame, Container, Dropdown
 
 
 class SpinnerPage:
@@ -8,20 +8,39 @@ class SpinnerPage:
     """
     Simple Accordion
     """
-    ib_button = Button(locator='Color Picker', by=By.ID)
-    ib_text = Text(locator='//*[@aria-labelledby="tab_item-0"]/div')
-    ib_iframe = Frame(locator='//*[contains(@data-src,"image")]')
+    c_button = Button(locator='Currency', by=By.ID)
+    c_text = Text(locator='//*[@aria-labelledby="tab_item-0"]/div')
+    c_iframe = Frame(locator='//*[contains(@data-src,"currency")]')
 
     """
     Simple Accordion
     """
-    vb_button = Button(locator='Range', by=By.ID)
-    vb_text = Text(locator='//*[@aria-labelledby="tab_item-1"]/div')
-    vb_iframe = Frame(locator='//*[contains(@data-src,"video")]')
+    ss_button = Button(locator='Simple Spinner', by=By.ID)
+    ss_text = Text(locator='//*[@aria-labelledby="tab_item-1"]/div')
+    ss_iframe = Frame(locator='//*[contains(@data-src,"default")]')
 
-    """
-    Simple Accordion
-    """
-    fb_button = Button(locator='Steps', by=By.ID)
-    fb_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
-    fb_iframe = Frame(locator='//*[contains(@data-src,"form")]')
+    field = Container(locator='//*[@id="spinner"]')
+    currency = Dropdown(locator='//*[@id="currency"]')
+    up = Button(locator='//*[contains(@class,"ui-spinner-up")]')
+    down = Button(locator='//*[contains(@class,"ui-spinner-down")]')
+    toggle_widget = Button(locator='//*[contains(@class,"ui-spinner-down")]')
+    toggle_state = Button(locator='//*[contains(@class,"ui-spinner-down")]')
+    get_value = Button(locator='//*[contains(@class,"ui-spinner-down")]')
+    default = Button(locator='//*[contains(@class,"ui-spinner-down")]')
+
+    script = "var inputElement = document.querySelector('input[id=\"spinner\"]');" \
+             "return inputElement.value.trim();"
+
+    @property
+    def selected_value(self):
+        self.field.is_displayed()
+        return self.field.execute_js(self.script)
+
+    def wheel_up(self, times):
+        for _ in range(times):
+            self.field.scroll(-100)
+
+    def wheel_down(self, times):
+        for _ in range(times):
+            self.field.scroll(100)
+

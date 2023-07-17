@@ -1,5 +1,6 @@
 import contextlib
 
+from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -76,6 +77,12 @@ class BaseElement:
         (ActionChains(Browser.get_driver())
             .move_to_element(self.element)
             .double_click()
+            .perform())
+        return self
+
+    def scroll(self, amount: int = 100):
+        (ActionChains(Browser.get_driver())
+            .scroll_from_origin(ScrollOrigin(self.element, 0, 0), 0, amount)
             .perform())
         return self
 

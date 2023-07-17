@@ -1,16 +1,16 @@
 
 
-def test_currency(slider_page):
-    assert driver.find_element(By.XPATH, '//*[contains(@style,"255, 140, 60")]')
-    red = driver.find_element(By.XPATH, '//*[@id="red"]/span')
-    action.drag_and_drop_by_offset(red, -200, 0).perform()
-    green = driver.find_element(By.XPATH, '//*[@id="green"]/span')
-    action.drag_and_drop_by_offset(green, -20, 0).perform()
-    blue = driver.find_element(By.XPATH, '//*[@id="blue"]/span')
-    action.drag_and_drop_by_offset(blue, 37, 0).perform()
-    assert driver.find_element(By.XPATH, '//*[contains(@style,"55, 120, 97")]')
+def test_currency(spinner_page):
+    with spinner_page.c_iframe.switch_to_frame():
+        assert spinner_page.selected_value == '$5.00'
+        spinner_page.wheel_up(2)
+        assert spinner_page.selected_value == '$55.00'
+        spinner_page.wheel_down(1)
+        assert spinner_page.selected_value == '$30.00'
+        spinner_page.currency.select_option_by_index(1)
+        assert spinner_page.selected_value == '30,00 €'
 
 
-def test_simple_spinner(slider_page):
+def test_simple_spinner(spinner_page):
     pass
 
