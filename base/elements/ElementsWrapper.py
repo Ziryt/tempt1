@@ -20,10 +20,7 @@ class BaseElementList:
 
     @property
     def elements(self) -> list[any]:
-        self._elements = []
-        for index, element in enumerate(self._finds):
-            modified = self.of(self.locator, self.by, index)
-            self._elements.append(modified)
+        self._elements = [self.of(self.locator, self.by, index) for index, element in enumerate(self._finds)]
         return self._elements
 
     @property

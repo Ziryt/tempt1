@@ -247,5 +247,5 @@ class Alert:
     def dismiss(self):
         self.alert.dismiss()
 
-    def send_keys(self):
-        self.alert.send_keys()
+    def send_keys(self, text):
+        self.alert.send_keys(text)
