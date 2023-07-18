@@ -9,6 +9,7 @@ def test_color_picker(slider_page):
 
 def test_range_collapse(slider_page):
     slider_page.r_button.click()
+
     with slider_page.r_iframe.switch_to_frame():
         slider_page.set_range_relative(71, -200)
         assert slider_page.r_iframe_left.attribute('style') == \
@@ -18,6 +19,7 @@ def test_range_collapse(slider_page):
 
 def test_range_absolute(slider_page):
     slider_page.r_button.click()
+
     with slider_page.r_iframe.switch_to_frame():
         slider_page.set_range_absolute(39, 77)
         assert '39%' in slider_page.r_iframe_left.attribute('style')
@@ -26,12 +28,11 @@ def test_range_absolute(slider_page):
 
 def test_steps(slider_page):
     slider_page.s_button.click()
-    script = "var inputElement = document.querySelector('input[type=\"text\"]');" \
-        "return inputElement.value.trim();"
+
     with slider_page.s_iframe.switch_to_frame():
         assert slider_page.s_iframe_text.text == 'Donation amount ($50 increments):'
         slider_page.add_step(-180)
-        assert slider_page.s_iframe_value.execute_js(script) == '$100'
+        assert slider_page.s_selected_value() == '$100'
         slider_page.add_step(-150)
-        assert slider_page.s_iframe_value.execute_js(script) == '$150'
+        assert slider_page.s_selected_value() == '$150'
 

@@ -34,8 +34,14 @@ class SliderPage:
     s_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
     s_iframe = Frame(locator='//*[contains(@data-src,"step")]')
     s_iframe_text = Text(locator='//*[@for="amount"]')
-    s_iframe_value = Text(locator='//*[@class="vsc-initialized"]/p')
+    s_iframe_value = Text(locator='//*[@for="amount"]/parent::p')
     s_iframe_bar = Container(locator='//*[@id="slider"]')
+
+    script = "var inputElement = document.querySelector('input[type=\"text\"]');" \
+             "return inputElement.value.trim();"
+
+    def s_selected_value(self):
+        return self.s_iframe_value.execute_js(self.script)
 
     def set_picker_color(self, red, green, blue) -> None:
         coeff = 302 / 255

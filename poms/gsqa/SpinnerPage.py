@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from base.elements.ElementWrapper import Button, Text, Frame, Container, Dropdown
+from base.elements.ElementWrapper import Button, Text, Frame, Container, Dropdown, Alert
 
 
 class SpinnerPage:
@@ -23,18 +23,19 @@ class SpinnerPage:
     currency = Dropdown(locator='//*[@id="currency"]')
     up = Button(locator='//*[contains(@class,"ui-spinner-up")]')
     down = Button(locator='//*[contains(@class,"ui-spinner-down")]')
-    toggle_widget = Button(locator='//*[contains(@class,"ui-spinner-down")]')
-    toggle_state = Button(locator='//*[contains(@class,"ui-spinner-down")]')
-    get_value = Button(locator='//*[contains(@class,"ui-spinner-down")]')
-    default = Button(locator='//*[contains(@class,"ui-spinner-down")]')
+    toggle_widget = Button(locator='//*[@id="destroy"]')
+    toggle_state = Button(locator='//*[@id="disable"]')
+    get_value = Button(locator='//*[@id="getvalue"]')
+    default = Button(locator='//*[@id="setvalue"]')
+    alert_box = Alert
 
     script = "var inputElement = document.querySelector('input[id=\"spinner\"]');" \
              "return inputElement.value.trim();"
 
     @property
     def selected_value(self):
-        self.field.is_displayed()
-        return self.field.execute_js(self.script)
+        if self.field.exists:
+            return self.field.execute_js(self.script)
 
     def wheel_up(self, times):
         for _ in range(times):
@@ -43,4 +44,3 @@ class SpinnerPage:
     def wheel_down(self, times):
         for _ in range(times):
             self.field.scroll(100)
-

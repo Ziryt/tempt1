@@ -19,10 +19,7 @@ class BaseElement:
 
     @property
     def element(self) -> WebElement:
-        try:
-            self._find()
-        except NoSuchElementException:
-            raise Exception(f'Element at "{self.locator}" was not found')
+        self._find()
         return self._element
 
     @property
@@ -41,12 +38,28 @@ class BaseElement:
     def invisibility(self):
         return EC.invisibility_of_element(self.element)
 
+    @property
+    def tag_name(self) -> str:
+        self.wait_until_present()
+        return self.element.tag_name
+
+    @property
+    def exists(self) -> bool:
+        try:
+            if Browser.get_driver().find_element(self.by, self.locator):
+                return True
+        except NoSuchElementException:
+            return False
+
     def _find(self):
         if self.index:
             self._element = Browser.get_driver().find_elements(self.by, self.locator)[self.index]
         else:
-            self.wait_until_present()
-            self._element = Browser.get_driver().find_element(self.by, self.locator)
+            try:
+                self.wait_until_present()
+                self._element = Browser.get_driver().find_element(self.by, self.locator)
+            except NoSuchElementException:
+                raise Exception(f'Element at "{self.locator}" was not found')
 
     def wait_until_present(self, timeout=10):
         try:
@@ -65,12 +78,23 @@ class BaseElement:
         except TimeoutException:
             return False
 
+    def is_clickable(self) -> bool:
+        if WebDriverWait(Browser.get_driver(), 10).until(
+            EC.element_to_be_clickable((self.by, self.locator))
+        ):
+            return True
+        else:
+            return False
+
+    def is_enabled(self) -> bool:
+        return self.element.is_enabled()
+
     def attribute(self, name: any) -> str:
         self.wait_until_present()
         return self.element.get_attribute(name)
 
-    def click(self):
-        self.element.click()
+    def click(self, times: int = 1):
+        [self.element.click() for _ in range(times)]
         return self
 
     def double_click(self):
@@ -87,6 +111,7 @@ class BaseElement:
         return self
 
     def execute_js(self, script):
+        self.wait_until_present()
         return Browser.get_driver().execute_script(script)
 
 
@@ -171,14 +196,6 @@ class Dropdown(BaseElement):
             self.select_option_by_index(index)
 
 
-class Frame(BaseElement):
-    @contextlib.contextmanager
-    def switch_to_frame(self):
-        Browser.get_driver().switch_to.frame(self.element)
-        yield
-        Browser.get_driver().switch_to.default_content()
-
-
 class Container(BaseElement):
     def drag_drop_by_offset(self, x: any, y: any) -> None:
         (ActionChains(Browser.get_driver())
@@ -200,3 +217,35 @@ class Container(BaseElement):
             .key_up(key)
             .perform())
         return self
+
+
+class Frame(BaseElement):
+    @contextlib.contextmanager
+    def switch_to_frame(self):
+        Browser.get_driver().switch_to.frame(self.element)
+        yield
+        Browser.get_driver().switch_to.default_content()
+
+
+class Alert:
+    def __init__(self):
+        self.alert = Browser.get_driver().switch_to.alert
+
+    def __enter__(self):
+        return self.alert
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        Browser.get_driver().switch_to.default_content()
+
+    @property
+    def text(self):
+        return self.alert.text
+
+    def accept(self):
+        self.alert.accept()
+
+    def dismiss(self):
+        self.alert.dismiss()
+
+    def send_keys(self):
+        self.alert.send_keys()

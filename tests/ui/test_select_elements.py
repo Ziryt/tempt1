@@ -13,6 +13,7 @@ def test_multiple_selection(select_page):
 def test_grid_selection(select_page):
     values = [1, 2, 3, 4, 6, 8]
     select_page.gs_button.click()
+
     with select_page.gs_iframe.switch_to_frame():
         select_page.select_from_to(6, 11)
         assert len(select_page.selected_list.elements) == 4
@@ -24,6 +25,7 @@ def test_grid_selection(select_page):
 def test_serialize(select_page):
     values = [1, 4, 6]
     select_page.s_button.click()
+
     with select_page.s_iframe.switch_to_frame():
         assert select_page.select_text.text == 'You\'ve selected:'
         select_page.chane(*values)
