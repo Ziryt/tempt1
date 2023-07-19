@@ -19,8 +19,8 @@ class BaseElement:
 
     @property
     def driver(self):
-        self._driver = dm.get_driver()
-        return self._driver
+        self._dw = dm.get_wrapper()
+        return self._dw.driver
 
     @property
     def element(self) -> WebElement:
@@ -99,7 +99,11 @@ class BaseElement:
         return self.element.get_attribute(name)
 
     def click(self, times: int = 1):
-        [self.element.click() for _ in range(times)]
+        temp = self.driver.window_handles
+        self.element.click()
+        if len(handles := self.driver.window_handles) != temp:
+            self.driver.switch_to.window(handles[-1])
+        [self.element.click() for _ in range(times - 1)]
         return self
 
     def double_click(self):
@@ -244,8 +248,8 @@ class Alert:
 
     @property
     def driver(self):
-        self._driver = dm.get_driver()
-        return self._driver
+        self._dw = dm.get_wrapper()
+        return self._dw.driver
 
     @property
     def text(self):

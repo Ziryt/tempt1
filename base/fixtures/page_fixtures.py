@@ -21,83 +21,83 @@ def autocomplete_page(driver):
 
     WIP
     """
-    driver.get('https://www.globalsqa.com/demo-site/auto-complete/')
+    driver.visit('https://www.globalsqa.com/demo-site/auto-complete/')
     return AutocompletePage()
 
 
 @pytest.fixture
 def autocomplete_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/auto-complete/')
+    driver.visit('https://www.globalsqa.com/demo-site/auto-complete/')
     return AutocompletePage()
 
 
 @pytest.fixture
 def date_picker_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/datepicker/')
+    driver.visit('https://www.globalsqa.com/demo-site/datepicker/')
     return DatePickerPage()
 
 
 @pytest.fixture
 def dialog_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/dialog-boxes/')
+    driver.visit('https://www.globalsqa.com/demo-site/dialog-boxes/')
     return DialogPage()
 
 
 @pytest.fixture
 def dropdown_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/select-dropdown-menu/')
+    driver.visit('https://www.globalsqa.com/demo-site/select-dropdown-menu/')
     return DropdownPage()
 
 
 @pytest.fixture
 def frames_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/frames-and-windows/')
-    return FramesPage()
+    driver.visit('https://www.globalsqa.com/demo-site/frames-and-windows/')
+    return FramesPage(), driver.driver
 
 
 @pytest.fixture
 def progress_bar_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/progress-bar/')
+    driver.visit('https://www.globalsqa.com/demo-site/progress-bar/')
     return ProgressBarPage()
 
 
 @pytest.fixture
 def select_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/select-elements/')
+    driver.visit('https://www.globalsqa.com/demo-site/select-elements/')
     return SelectPage()
 
 
 @pytest.fixture
 def slider_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/sliders/')
+    driver.visit('https://www.globalsqa.com/demo-site/sliders/')
     return SliderPage()
 
 
 @pytest.fixture
 def sortable_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/sorting/')
+    driver.visit('https://www.globalsqa.com/demo-site/sorting/')
     return SortablePage()
 
 
 @pytest.fixture
 def spinner_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/spinner/')
+    driver.visit('https://www.globalsqa.com/demo-site/spinner/')
     return SpinnerPage()
 
 
 @pytest.fixture
 def tabs_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/accordion-and-tabs/')
+    driver.visit('https://www.globalsqa.com/demo-site/accordion-and-tabs/')
     return TabsPage()
 
 
 @pytest.fixture
 def toolbar_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/toolbar/')
+    driver.visit('https://www.globalsqa.com/demo-site/toolbar/')
     return ToolbarPage()
 
 
 @pytest.fixture
 def tooltips_page(driver):
-    driver.get('https://www.globalsqa.com/demo-site/tooltip/')
+    driver.visit('https://www.globalsqa.com/demo-site/tooltip/')
     return TooltipPage()

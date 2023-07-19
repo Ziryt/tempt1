@@ -9,20 +9,20 @@ class FramesPage(BasePage):
     """
     Simple Accordion
     """
-    ib_button = Button(locator='Color Picker', by=By.ID)
-    ib_text = Text(locator='//*[@aria-labelledby="tab_item-0"]/div')
-    ib_iframe = Frame(locator='//*[contains(@data-src,"image")]')
+    ont_button = Button(locator='Open New Tab', by=By.ID)
+    ont_text = Text(locator='//*[@aria-labelledby="tab_item-0"]/div')
 
     """
     Simple Accordion
     """
-    vb_button = Button(locator='Range', by=By.ID)
-    vb_text = Text(locator='//*[@aria-labelledby="tab_item-1"]/div')
-    vb_iframe = Frame(locator='//*[contains(@data-src,"video")]')
+    onw_button = Button(locator='Open New Window', by=By.ID)
+    onw_text = Text(locator='//*[@aria-labelledby="tab_item-1"]/div')
 
     """
     Simple Accordion
     """
-    fb_button = Button(locator='Steps', by=By.ID)
-    fb_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
-    fb_iframe = Frame(locator='//*[contains(@data-src,"form")]')
+    f_button = Button(locator='iFrame', by=By.ID)
+    f_text = Text(locator='//*[@aria-labelledby="tab_item-2"]/div')
+    f_iframe = Frame(locator='//*[contains(@data-src,"trainings")]')
+
+    new_button = Button(locator='//*[contains(@class,"resp-tab-content-active")]/a')

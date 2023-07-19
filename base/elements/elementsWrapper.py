@@ -16,8 +16,8 @@ class BaseElementList:
 
     @property
     def driver(self):
-        self._driver = dm.get_driver()
-        return self._driver
+        self._dw = dm.get_wrapper()
+        return self._dw.driver
 
     @property
     def _finds(self) -> list[WebElement]:

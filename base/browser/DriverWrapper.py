@@ -5,12 +5,6 @@ class DriverWrapper:
     def __init__(self, driver: WebDriver = None):
         self.driver: WebDriver = driver
 
-    def find_element(self, *locator):
-        return self.driver.find_element(*locator)
-
-    def find_elements(self, *locator):
-        return self.driver.find_elements(*locator)
-
     def quit(self) -> None:
         self.driver.quit()
 
@@ -28,3 +22,6 @@ class DriverWrapper:
 
     def set_position(self, x, y) -> None:
         self.driver.set_window_position(x, y)
+
+    def switch_tab(self, tab) -> None:
+        self.driver.switch_to.window(tab)
