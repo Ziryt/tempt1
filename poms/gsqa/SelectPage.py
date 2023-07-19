@@ -1,11 +1,11 @@
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from base.elements.elementWrapper import Button, Text, Frame
+from base.elements.elementsWrapper import Containers
+from poms.BasePage import BasePage
 
-from base.elements.ElementWrapper import Button, Text, Frame
-from base.elements.ElementsWrapper import Containers
 
-
-class SelectPage:
+class SelectPage(BasePage):
 
     """
     Multiple selection

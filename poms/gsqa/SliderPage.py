@@ -1,10 +1,11 @@
 import re
 
 from selenium.webdriver.common.by import By
-from base.elements.ElementWrapper import Button, Text, Frame, Container
+from base.elements.elementWrapper import Button, Text, Frame, Container
+from poms.BasePage import BasePage
 
 
-class SliderPage:
+class SliderPage(BasePage):
 
     """
     Simple Accordion

@@ -1,9 +1,10 @@
 from selenium.webdriver.common.by import By
 
-from base.elements.ElementWrapper import Button, Text, Frame, Container, Dropdown, Alert
+from base.elements.elementWrapper import Button, Text, Frame, Container, Dropdown, Alert
+from poms.BasePage import BasePage
 
 
-class SpinnerPage:
+class SpinnerPage(BasePage):
 
     """
     Simple Accordion

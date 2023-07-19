@@ -1,9 +1,9 @@
 from selenium.webdriver.common.by import By
+from base.elements.elementWrapper import Button, Text, Frame
+from poms.BasePage import BasePage
 
-from base.elements.ElementWrapper import Button, Text, Frame
 
-
-class ProgressBarPage:
+class ProgressBarPage(BasePage):
 
     """
     Simple Accordion

@@ -1,9 +1,10 @@
 from selenium.webdriver.common.by import By
 
-from base.elements.ElementWrapper import Button, Text, Frame
+from base.elements.elementWrapper import Button, Text, Frame
+from poms.BasePage import BasePage
 
 
-class TooltipPage:
+class TooltipPage(BasePage):
 
     """
     Simple Accordion

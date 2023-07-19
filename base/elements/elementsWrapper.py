@@ -2,8 +2,8 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
-from base.browser.Wrapper import Browser
-from base.elements.ElementWrapper import BaseElement, Container
+from base.browser.DriverManager import DriverManager as dm
+from base.elements.elementWrapper import BaseElement, Container
 
 
 class BaseElementList:
@@ -15,8 +15,13 @@ class BaseElementList:
         self.locator = locator
 
     @property
+    def driver(self):
+        self._driver = dm.get_driver()
+        return self._driver
+
+    @property
     def _finds(self) -> list[WebElement]:
-        return Browser.get_driver().find_elements(self.by, self.locator)
+        return dm.get_driver().find_elements(self.by, self.locator)
 
     @property
     def elements(self) -> list[any]:
@@ -33,6 +38,6 @@ class Containers(BaseElementList):
     of = Container
 
     def select_area(self, start, end) -> None:
-        (ActionChains(Browser.get_driver())
+        (ActionChains(self.driver)
          .drag_and_drop(self.elements[start].element, self.elements[end].element)
          .perform())

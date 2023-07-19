@@ -1,9 +1,10 @@
 from selenium.webdriver.common.by import By
-from base.elements.ElementWrapper import Button, Container, Frame, Text
-from base.elements.ElementsWrapper import BaseElementList
+from base.elements.elementWrapper import Button, Container, Frame, Text
+from base.elements.elementsWrapper import BaseElementList
+from poms.BasePage import BasePage
 
 
-class TabsPage:
+class TabsPage(BasePage):
 
     """
     Simple Accordion

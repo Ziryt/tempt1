@@ -8,7 +8,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains, Keys
 from selenium.common import NoSuchElementException, TimeoutException
-from base.browser.Wrapper import Browser
+from base.browser.DriverManager import DriverManager as dm
 
 
 class BaseElement:
@@ -16,6 +16,11 @@ class BaseElement:
         self.by = by
         self.locator = locator
         self.index = index
+
+    @property
+    def driver(self):
+        self._driver = dm.get_driver()
+        return self._driver
 
     @property
     def element(self) -> WebElement:
@@ -46,24 +51,24 @@ class BaseElement:
     @property
     def exists(self) -> bool:
         try:
-            if Browser.get_driver().find_element(self.by, self.locator):
+            if self.driver.find_element(self.by, self.locator):
                 return True
         except NoSuchElementException:
             return False
 
     def _find(self):
         if self.index:
-            self._element = Browser.get_driver().find_elements(self.by, self.locator)[self.index]
+            self._element = self.driver.find_elements(self.by, self.locator)[self.index]
         else:
             try:
                 self.wait_until_present()
-                self._element = Browser.get_driver().find_element(self.by, self.locator)
+                self._element = self.driver.find_element(self.by, self.locator)
             except NoSuchElementException:
                 raise Exception(f'Element at "{self.locator}" was not found')
 
     def wait_until_present(self, timeout=10):
         try:
-            WebDriverWait(Browser.get_driver(), timeout).until(
+            WebDriverWait(self.driver, timeout).until(
                 EC.presence_of_element_located((self.by, self.locator))
             )
         except TimeoutException:
@@ -71,7 +76,7 @@ class BaseElement:
 
     def is_displayed(self) -> bool:
         try:
-            element = WebDriverWait(Browser.get_driver(), 10).until(
+            element = WebDriverWait(self.driver, 10).until(
                 EC.visibility_of_element_located((self.by, self.locator))
             )
             return element.is_displayed()
@@ -79,7 +84,7 @@ class BaseElement:
             return False
 
     def is_clickable(self) -> bool:
-        if WebDriverWait(Browser.get_driver(), 10).until(
+        if WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((self.by, self.locator))
         ):
             return True
@@ -98,21 +103,21 @@ class BaseElement:
         return self
 
     def double_click(self):
-        (ActionChains(Browser.get_driver())
+        (ActionChains(self.driver)
             .move_to_element(self.element)
             .double_click()
             .perform())
         return self
 
     def scroll(self, amount: int = 100):
-        (ActionChains(Browser.get_driver())
+        (ActionChains(self.driver)
             .scroll_from_origin(ScrollOrigin(self.element, 0, 0), 0, amount)
             .perform())
         return self
 
     def execute_js(self, script):
         self.wait_until_present()
-        return Browser.get_driver().execute_script(script)
+        return self.driver.execute_script(script)
 
 
 class Text(BaseElement):
@@ -128,7 +133,7 @@ class Input(BaseElement):
 
 class TextInput(Input):
     def clear(self) -> WebElement:
-        (ActionChains(Browser.get_driver())
+        (ActionChains(self.driver)
             .key_down(Keys.CONTROL)
             .send_keys('a')
             .key_up(Keys.CONTROL)
@@ -198,19 +203,19 @@ class Dropdown(BaseElement):
 
 class Container(BaseElement):
     def drag_drop_by_offset(self, x: any, y: any) -> None:
-        (ActionChains(Browser.get_driver())
+        (ActionChains(self.driver)
             .drag_and_drop_by_offset(self.element, x, y)
             .perform())
 
     def click_by_offset(self, x: any, y: any) -> None:
-        (ActionChains(Browser.get_driver())
+        (ActionChains(self.driver)
             .move_to_element_with_offset(self.element, x, y)
             .click()
             .perform())
         return self
 
     def click_with_key(self, key: any):
-        (ActionChains(Browser.get_driver())
+        (ActionChains(self.driver)
             .move_to_element(self.element)
             .key_down(key)
             .click()
@@ -222,20 +227,25 @@ class Container(BaseElement):
 class Frame(BaseElement):
     @contextlib.contextmanager
     def switch_to_frame(self):
-        Browser.get_driver().switch_to.frame(self.element)
+        self.driver.switch_to.frame(self.element)
         yield
-        Browser.get_driver().switch_to.default_content()
+        self.driver.switch_to.default_content()
 
 
 class Alert:
     def __init__(self):
-        self.alert = Browser.get_driver().switch_to.alert
+        self.alert = self.driver.switch_to.alert
 
     def __enter__(self):
         return self.alert
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        Browser.get_driver().switch_to.default_content()
+        self.driver.switch_to.default_content()
+
+    @property
+    def driver(self):
+        self._driver = dm.get_driver()
+        return self._driver
 
     @property
     def text(self):

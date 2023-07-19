@@ -2,11 +2,12 @@ import calendar
 from datetime import datetime
 
 from selenium.webdriver.common.by import By
-from base.elements.ElementWrapper import Button, Text, Frame, Container, Dropdown
-from base.elements.ElementsWrapper import Containers
+from base.elements.elementWrapper import Button, Text, Frame, Container, Dropdown
+from base.elements.elementsWrapper import Containers
+from poms.BasePage import BasePage
 
 
-class DatePickerPage:
+class DatePickerPage(BasePage):
     """
     Simple Accordion
     """

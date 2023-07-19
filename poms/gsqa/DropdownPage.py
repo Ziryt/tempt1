@@ -1,9 +1,10 @@
 from selenium.webdriver.common.by import By
 
-from base.elements.ElementWrapper import Button, Text, Dropdown
+from base.elements.elementWrapper import Button, Text, Dropdown
+from poms.BasePage import BasePage
 
 
-class DropdownPage:
+class DropdownPage(BasePage):
 
     """
     Select country
