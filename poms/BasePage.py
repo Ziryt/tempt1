@@ -1,5 +1,4 @@
 from base.browser.DriverManager import DriverManager
-from base.elements.elementWrapper import BaseElement
 
 
 class BasePage:
