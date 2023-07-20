@@ -15,9 +15,7 @@ class TooltipPage(BasePage):
     first = Container(locator='//*[contains(text(),"Vienna, Austria")]')
     second = Container(locator='//*[contains(text(),"London, England")]')
     third = Container(locator='//*[contains(text(),"CC BY-SA 3.0")]')
-    tooltip_first = Container(locator='//*[contains(text(),"London, England")]')
-    tooltip_second = Container(locator='//*[contains(text(),"London, England")]')
-    tooltip_third = Container(locator='//*[contains(text(),"London, England")]')
+    tooltip = Container(locator='//*[@class="ui-tooltip-content"]/img')
 
     """
     Simple Accordion

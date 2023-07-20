@@ -7,7 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains, Keys
-from selenium.common import NoSuchElementException, TimeoutException
+from selenium.common import NoSuchElementException, TimeoutException, InvalidSelectorException
 from base.browser.DriverManager import DriverManager as dm
 
 
@@ -73,6 +73,8 @@ class BaseElement:
             )
         except TimeoutException:
             raise Exception(f'Time went out during waiting of element:"{self.locator}" to be present')
+        except InvalidSelectorException:
+            raise Exception(f'Xpath provided:"{self.locator}" is either invalid or doesn\'t return WebElement')
 
     def is_displayed(self) -> bool:
         try:
@@ -112,6 +114,11 @@ class BaseElement:
             .double_click()
             .perform())
         return self
+
+    def hover(self):
+        (ActionChains(self.driver)
+            .move_to_element(self.element)
+            .perform())
 
     def scroll(self, amount: int = 100):
         (ActionChains(self.driver)
