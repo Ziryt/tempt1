@@ -116,6 +116,7 @@ class BaseElement:
         return self
 
     def hover(self):
+        self.is_clickable()
         (ActionChains(self.driver)
             .move_to_element(self.element)
             .perform())
