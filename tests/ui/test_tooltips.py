@@ -26,8 +26,3 @@ def test_video(tooltips_page):
         assert tooltips_page.vb_tooltip.text == 'Share this video'
         tooltips_page.vb_report.hover()
         assert tooltips_page.vb_tooltip.text == 'Flag as inappropriate'
-
-
-
-def test_form(tooltips_page):
-    pass
